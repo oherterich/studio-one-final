@@ -30,4 +30,27 @@ class testApp : public ofBaseApp{
 		
     ofVideoPlayer howareyou;
     
+//    ofSoundPlayer nostalgic01;
+//    ofSoundPlayer nostalgic02;
+//    ofSoundPlayer nostalgic03;
+//    ofSoundPlayer nostalgic04;
+//    ofSoundPlayer introspective01;
+//    ofSoundPlayer introspective02;
+//    ofSoundPlayer introspective03;
+//    ofSoundPlayer introspective04;
+//    ofSoundPlayer lost01;
+//    ofSoundPlayer lost02;
+//    ofSoundPlayer lost03;
+//    ofSoundPlayer lost04;
+//    ofSoundPlayer determined01;
+//    ofSoundPlayer determined02;
+//    ofSoundPlayer determined03;
+//    ofSoundPlayer determined04;
+    
+    string chosenSong;
+    ofSoundPlayer activeSong;
+
+
+
+    
 };

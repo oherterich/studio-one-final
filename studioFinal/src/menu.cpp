@@ -8,6 +8,8 @@ Menu::Menu(){
     
     bool clicked;
     
+    bool provided;
+    
     string clipName;
 }
 

@@ -16,6 +16,8 @@ public:
     int width;
     int height;
     bool clicked;
+    bool provided;
+    
     string clipName;
     
     ofVideoPlayer menuVideo;

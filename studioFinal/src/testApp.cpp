@@ -9,10 +9,10 @@ void testApp::setup(){
     howareyou.loadMovie("movies/howareyou.mp4");
     howareyou.play();
     
-    menuNOSTALGIC.setup(30,385,135,25,"nostalgic");
-    menuINTROSPECTIVE.setup(45,430,110,25, "introspective");
-    menuLOST.setup(25,475, 100, 25,"lost");
-    menuDETERMINED.setup(15,520,115,20, "determined");
+    menuNOSTALGIC.setup(30,385,135,25,"menunostalgic");
+    menuINTROSPECTIVE.setup(45,430,110,25, "menuintrospective");
+    menuLOST.setup(25,475, 100, 25,"menulost");
+    menuDETERMINED.setup(15,520,115,20, "menudetermined");
     
 }
 
@@ -24,6 +24,8 @@ void testApp::update(){
     menuINTROSPECTIVE.update();
     menuLOST.update();
     menuDETERMINED.update();
+    
+    ofSoundUpdate();
     
 }
 
@@ -90,6 +92,13 @@ void testApp::checkMenu(int x, int y){
         menuINTROSPECTIVE.clicked = false;
         menuLOST.clicked = false;
         menuDETERMINED.clicked = false;
+        
+        activeSong.unloadSound();
+        
+        chosenSong = "sound/nostalgic01.mp3";
+        
+        activeSong.loadSound(chosenSong);
+        activeSong.play();
     }
     
     menuINTROSPECTIVE.checkClick(x,y);
@@ -97,6 +106,13 @@ void testApp::checkMenu(int x, int y){
         menuNOSTALGIC.clicked = false;
         menuLOST.clicked = false;
         menuDETERMINED.clicked = false;
+        
+        activeSong.unloadSound();
+        
+        chosenSong = "sound/introspective01.mp3";
+        
+        activeSong.loadSound(chosenSong);
+        activeSong.play();
     }
     
     menuLOST.checkClick(x,y);
@@ -104,6 +120,13 @@ void testApp::checkMenu(int x, int y){
         menuINTROSPECTIVE.clicked = false;
         menuNOSTALGIC.clicked = false;
         menuDETERMINED.clicked = false;
+        
+        activeSong.unloadSound();
+        
+        chosenSong = "sound/lost01.mp3";
+        
+        activeSong.loadSound(chosenSong);
+        activeSong.play();
     }
     
     menuDETERMINED.checkClick(x,y);
@@ -111,6 +134,13 @@ void testApp::checkMenu(int x, int y){
         menuINTROSPECTIVE.clicked = false;
         menuLOST.clicked = false;
         menuNOSTALGIC.clicked = false;
+        
+        activeSong.unloadSound();
+        
+        chosenSong = "sound/determined01.mp3";
+        
+        activeSong.loadSound(chosenSong);
+        activeSong.play();
     }
     
     
