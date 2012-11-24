@@ -5,14 +5,22 @@ void testApp::setup(){
 
     ofBackground(0,0,0);
     
+    ofSetFrameRate(30);
+    
     ofSetColor(255,255,255);
+    
+    firstTimeFaded = true; 
+    
     howareyou.loadMovie("movies/howareyou.mp4");
     howareyou.play();
+    
     
     menuNOSTALGIC.setup(30,385,135,25,"menunostalgic");
     menuINTROSPECTIVE.setup(45,430,110,25, "menuintrospective");
     menuLOST.setup(25,475, 100, 25,"menulost");
     menuDETERMINED.setup(15,520,115,20, "menudetermined");
+    
+    cout << fadeOutVid.getIsMovieDone() << " | " << firstTimeFaded << endl;
     
 }
 
@@ -20,10 +28,15 @@ void testApp::setup(){
 void testApp::update(){
     
     howareyou.update();
+    
     menuNOSTALGIC.update();
     menuINTROSPECTIVE.update();
     menuLOST.update();
     menuDETERMINED.update();
+    
+    fadeOutVid.update();
+    
+    playSong(songMood);
     
     ofSoundUpdate();
     
@@ -33,10 +46,13 @@ void testApp::update(){
 void testApp::draw(){
     
     howareyou.draw(0,0);
+    
     menuNOSTALGIC.draw();
     menuINTROSPECTIVE.draw();
     menuLOST.draw();
     menuDETERMINED.draw();
+    
+    fadeOutVid.draw(0,0);
     
 }
 
@@ -63,6 +79,7 @@ void testApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
     checkMenu(x,y);
+    fadeOutVids(x,y);
 }
 
 //--------------------------------------------------------------
@@ -93,12 +110,6 @@ void testApp::checkMenu(int x, int y){
         menuLOST.clicked = false;
         menuDETERMINED.clicked = false;
         
-        activeSong.unloadSound();
-        
-        chosenSong = "sound/nostalgic01.mp3";
-        
-        activeSong.loadSound(chosenSong);
-        activeSong.play();
     }
     
     menuINTROSPECTIVE.checkClick(x,y);
@@ -107,12 +118,6 @@ void testApp::checkMenu(int x, int y){
         menuLOST.clicked = false;
         menuDETERMINED.clicked = false;
         
-        activeSong.unloadSound();
-        
-        chosenSong = "sound/introspective01.mp3";
-        
-        activeSong.loadSound(chosenSong);
-        activeSong.play();
     }
     
     menuLOST.checkClick(x,y);
@@ -121,12 +126,6 @@ void testApp::checkMenu(int x, int y){
         menuNOSTALGIC.clicked = false;
         menuDETERMINED.clicked = false;
         
-        activeSong.unloadSound();
-        
-        chosenSong = "sound/lost01.mp3";
-        
-        activeSong.loadSound(chosenSong);
-        activeSong.play();
     }
     
     menuDETERMINED.checkClick(x,y);
@@ -135,12 +134,6 @@ void testApp::checkMenu(int x, int y){
         menuLOST.clicked = false;
         menuNOSTALGIC.clicked = false;
         
-        activeSong.unloadSound();
-        
-        chosenSong = "sound/determined01.mp3";
-        
-        activeSong.loadSound(chosenSong);
-        activeSong.play();
     }
     
     
@@ -148,4 +141,103 @@ void testApp::checkMenu(int x, int y){
     if (menuNOSTALGIC.clicked == true || menuINTROSPECTIVE.clicked == true || menuLOST.clicked == true || menuDETERMINED.clicked == true) {
         howareyou.closeMovie();
     }
+}
+
+void testApp::fadeOutVids(int x, int y) {
+    
+    if (x > 400 && x < 545 && y > 270 && y < 295) {
+        if (menuNOSTALGIC.clicked == true || menuINTROSPECTIVE.clicked == true || menuLOST.clicked == true || menuDETERMINED.clicked == true) {
+            
+            if (menuNOSTALGIC.clicked == true) {
+                
+                fadeOutVid.closeMovie();
+                
+                fadeOutVid.loadMovie("movies/fadenostalgic.mp4");
+                
+                songMood = "nostalgic";
+                
+                if(fadeOutVid.isLoaded()) {
+                    fadeOutVid.play();
+                    
+                    fadeOutVid.setLoopState(OF_LOOP_NONE);
+                }
+            }
+            
+            if (menuINTROSPECTIVE.clicked == true) {
+                
+                fadeOutVid.closeMovie();
+                
+                fadeOutVid.loadMovie("movies/fadeintrospective.mp4");
+                
+                songMood = "introspective";
+                
+                if (fadeOutVid.isLoaded()) {
+                    fadeOutVid.play();
+                    
+                    fadeOutVid.setLoopState(OF_LOOP_NONE);
+                }
+            }
+            
+            if (menuLOST.clicked == true) {
+                
+                fadeOutVid.closeMovie();
+                
+                fadeOutVid.loadMovie("movies/fadelost.mp4");
+                
+                songMood = "lost";
+                
+                if (fadeOutVid.isLoaded()) {
+                    fadeOutVid.play();
+                    
+                    fadeOutVid.setLoopState(OF_LOOP_NONE);
+                }
+            }
+            
+            if (menuDETERMINED.clicked == true) {
+                
+                fadeOutVid.closeMovie();
+                
+                fadeOutVid.loadMovie("movies/fadedetermined.mp4");
+                
+                songMood = "determined";
+                
+                if (fadeOutVid.isLoaded()) {
+                    fadeOutVid.play();
+                    
+                    fadeOutVid.setLoopState(OF_LOOP_NONE);
+                }
+            }
+        }
+    }
+    
+}
+
+void testApp::playSong(string song) {
+    
+    if (fadeOutVid.getIsMovieDone()) {
+    
+        if (firstTimeFaded == true) {
+    
+            activeSong.unloadSound();
+            
+            chosenSong = "sound/" + song + "0" + randomSong() + ".mp3";
+            
+            activeSong.loadSound(chosenSong);
+            activeSong.play();
+            
+            firstTimeFaded = false;
+        }
+    }
+
+}
+
+string testApp::randomSong(){
+    
+    float randomFloat = ofRandom(1, 5);
+    int randomInt  = randomFloat;
+    
+    string result = ofToString(randomInt);
+    
+    return result;
+    
 }

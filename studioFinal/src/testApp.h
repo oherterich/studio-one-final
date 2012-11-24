@@ -21,7 +21,13 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+    bool firstTimeFaded;
+    string songMood;
+    
     void checkMenu(int x, int y);
+    void fadeOutVids(int x, int y);
+    void playSong(string song);
+    string randomSong();
     
     Menu menuNOSTALGIC;
     Menu menuINTROSPECTIVE;
@@ -29,6 +35,7 @@ class testApp : public ofBaseApp{
     Menu menuDETERMINED;
 		
     ofVideoPlayer howareyou;
+    ofVideoPlayer fadeOutVid;
     
 //    ofSoundPlayer nostalgic01;
 //    ofSoundPlayer nostalgic02;

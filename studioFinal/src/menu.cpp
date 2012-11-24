@@ -53,7 +53,7 @@ void Menu::checkClick(int x, int y){
         
         clicked = true;
 
-        menuVideo.loadMovie("movies/" + clipName +".mp4");
+        menuVideo.loadMovie("movies/" + clipName + ".mp4");
         menuVideo.play();
         
     }
