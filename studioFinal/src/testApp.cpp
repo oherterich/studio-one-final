@@ -5,22 +5,23 @@ void testApp::setup(){
 
     ofBackground(0,0,0);
     
-    ofSetFrameRate(30);
+    ofSetFrameRate(24);
+    ofSetVerticalSync(true);
     
     ofSetColor(255,255,255);
     
     firstTimeFaded = true; 
+    moodSelected = 0;
     
     howareyou.loadMovie("movies/howareyou.mp4");
     howareyou.play();
     
+    loadVideos();
     
     menuNOSTALGIC.setup(30,385,135,25,"menunostalgic");
     menuINTROSPECTIVE.setup(45,430,110,25, "menuintrospective");
     menuLOST.setup(25,475, 100, 25,"menulost");
     menuDETERMINED.setup(15,520,115,20, "menudetermined");
-    
-    cout << fadeOutVid.getIsMovieDone() << " | " << firstTimeFaded << endl;
     
 }
 
@@ -35,10 +36,41 @@ void testApp::update(){
     menuDETERMINED.update();
     
     fadeOutVid.update();
+    updateVideos();
     
     playSong(songMood);
     
     ofSoundUpdate();
+    
+    if (fadeOutVid.getIsMovieDone()) {
+        fadeOutVid.closeMovie();
+        
+        switch (moodSelected) {
+                
+            case 1 :
+                nostalgic[randomNostalgic].play();
+                nostalgic[randomNostalgic].setLoopState(OF_LOOP_NONE);
+                break;
+                
+            case 2 :
+                introspective[randomIntrospective].play();
+                introspective[randomIntrospective].setLoopState(OF_LOOP_NONE);
+                break;
+                
+            case 3 :
+                lost[randomLost].play();
+                lost[randomLost].setLoopState(OF_LOOP_NONE);
+                break;
+                
+            case 4 :
+                determined[randomDetermined].play();
+                determined[randomDetermined].setLoopState(OF_LOOP_NONE);
+                break;
+        }
+
+        
+
+    }
     
 }
 
@@ -53,6 +85,27 @@ void testApp::draw(){
     menuDETERMINED.draw();
     
     fadeOutVid.draw(0,0);
+    
+    if (activeSong.getIsPlaying()) {
+        switch (moodSelected) {
+                
+            case 1 :
+                playNostalgic();
+                break;
+                
+            case 2 :
+                playIntrospective();
+                break;
+                
+            case 3 :
+                playLost();
+                break;
+                
+            case 4 :
+                playDetermined();
+                break;
+        }
+    }
     
 }
 
@@ -155,6 +208,11 @@ void testApp::fadeOutVids(int x, int y) {
                 fadeOutVid.loadMovie("movies/fadenostalgic.mp4");
                 
                 songMood = "nostalgic";
+                moodSelected = 1;
+                
+                introspective[randomIntrospective].closeMovie();
+                lost[randomLost].closeMovie();
+                determined[randomDetermined].closeMovie();
                 
                 if(fadeOutVid.isLoaded()) {
                     fadeOutVid.play();
@@ -170,6 +228,11 @@ void testApp::fadeOutVids(int x, int y) {
                 fadeOutVid.loadMovie("movies/fadeintrospective.mp4");
                 
                 songMood = "introspective";
+                moodSelected = 2;
+                
+                nostalgic[randomNostalgic].closeMovie();
+                lost[randomLost].closeMovie();
+                determined[randomDetermined].closeMovie();
                 
                 if (fadeOutVid.isLoaded()) {
                     fadeOutVid.play();
@@ -185,6 +248,11 @@ void testApp::fadeOutVids(int x, int y) {
                 fadeOutVid.loadMovie("movies/fadelost.mp4");
                 
                 songMood = "lost";
+                moodSelected = 3;
+                
+                nostalgic[randomNostalgic].closeMovie();
+                introspective[randomIntrospective].closeMovie();
+                determined[randomDetermined].closeMovie();
                 
                 if (fadeOutVid.isLoaded()) {
                     fadeOutVid.play();
@@ -200,6 +268,11 @@ void testApp::fadeOutVids(int x, int y) {
                 fadeOutVid.loadMovie("movies/fadedetermined.mp4");
                 
                 songMood = "determined";
+                moodSelected = 4;
+                
+                nostalgic[randomNostalgic].closeMovie();
+                introspective[randomIntrospective].closeMovie();
+                lost[randomLost].closeMovie();
                 
                 if (fadeOutVid.isLoaded()) {
                     fadeOutVid.play();
@@ -231,6 +304,82 @@ void testApp::playSong(string song) {
 
 }
 
+void testApp::playDetermined() {
+    
+    if (activeSong.getPosition() < 1.0 && determined[randomDetermined].getIsMovieDone() == true) {
+        
+        determined[randomDetermined].closeMovie();
+        randomDetermined = ofRandom(0,NDETERMINED);
+        determined[randomDetermined].play();
+        determined[randomDetermined].setLoopState(OF_LOOP_NONE);
+        
+    }
+    
+    else {
+        cout << randomDetermined << " | " << determined[randomDetermined].isLoaded() << endl;
+        determined[randomDetermined].draw(0,0);
+        
+    }
+
+}
+
+void testApp::playLost() {
+    
+    if (activeSong.getPosition() < 1.0 && lost[randomLost].getIsMovieDone() == true) {
+        
+        lost[randomLost].closeMovie();
+        randomLost = ofRandom(0,NLOST);
+        lost[randomLost].play();
+        lost[randomLost].setLoopState(OF_LOOP_NONE);
+        
+    }
+    
+    else {
+        
+        lost[randomLost].draw(0,0);
+        
+    }
+    
+}
+
+void testApp::playNostalgic() {
+    
+    if (activeSong.getPosition() < 1.0 && nostalgic[randomNostalgic].getIsMovieDone() == true) {
+        
+        nostalgic[randomNostalgic].closeMovie();
+        randomNostalgic = ofRandom(0,NNOSTALGIC);
+        nostalgic[randomNostalgic].play();
+        nostalgic[randomNostalgic].setLoopState(OF_LOOP_NONE);
+        
+    }
+    
+    else {
+        
+        nostalgic[randomNostalgic].draw(0,0);
+        
+    }
+    
+}
+
+void testApp::playIntrospective() {
+    
+    if (activeSong.getPosition() < 1.0 && introspective[randomIntrospective].getIsMovieDone() == true) {
+        
+        introspective[randomIntrospective].closeMovie();
+        randomIntrospective = ofRandom(0,NINTROSPECTIVE);
+        introspective[randomIntrospective].play();
+        introspective[randomIntrospective].setLoopState(OF_LOOP_NONE);
+        
+    }
+    
+    else {
+        
+        introspective[randomIntrospective].draw(0,0);
+        
+    }
+    
+}
+
 string testApp::randomSong(){
     
     float randomFloat = ofRandom(1, 5);
@@ -239,5 +388,71 @@ string testApp::randomSong(){
     string result = ofToString(randomInt);
     
     return result;
+    
+}
+
+void testApp::updateVideos() {
+    
+    if (activeSong.getIsPlaying()) {
+        switch (moodSelected) {
+                
+            case 1 :
+                nostalgic[randomNostalgic].update();
+                break;
+                
+            case 2 :
+                introspective[randomIntrospective].update();
+                break;
+                
+            case 3 :
+                lost[randomLost].update();
+                break;
+                
+            case 4 :
+                determined[randomDetermined].update();
+                break;
+        }
+    }
+    
+}
+
+void testApp::loadVideos() {
+    
+    for (int i=0; i<NDETERMINED; i++) {
+        
+        string tempClip = ofToString(i+1);
+        
+        determined[i].loadMovie("movies/Determined/determined" + tempClip + ".mp4");
+        
+    }
+    
+    for (int i=0; i<NLOST; i++) {
+        
+        string tempClip = ofToString(i+1);
+        
+        lost[i].loadMovie("movies/Lost/lost" + tempClip + ".mp4");
+        
+    }
+    
+    for (int i=0; i<NNOSTALGIC; i++) {
+        
+        string tempClip = ofToString(i+1);
+        
+        nostalgic[i].loadMovie("movies/Nostalgic/nostalgic" + tempClip + ".mp4");
+        
+    }
+    
+    for (int i=0; i<NINTROSPECTIVE; i++) {
+        
+        string tempClip = ofToString(i+1);
+        
+        introspective[i].loadMovie("movies/Introspective/introspective" + tempClip + ".mp4");
+        
+    }
+    
+    randomDetermined = ofRandom(0,NDETERMINED);
+    randomLost = ofRandom(0,NLOST);
+    randomNostalgic = ofRandom(0,NNOSTALGIC);
+    randomIntrospective = ofRandom(0,NINTROSPECTIVE);
     
 }
