@@ -5,7 +5,7 @@ void testApp::setup(){
 
     ofBackground(0,0,0);
     
-    ofSetFrameRate(24);
+    ofSetFrameRate(60);
     ofSetVerticalSync(true);
     
     ofSetColor(255,255,255);
@@ -309,6 +309,8 @@ void testApp::playDetermined() {
     if (activeSong.getPosition() < 1.0 && determined[randomDetermined].getIsMovieDone() == true) {
         
         determined[randomDetermined].closeMovie();
+        string tempClip = ofToString(randomDetermined+1);
+        determined[randomDetermined].loadMovie("movies/Determined/determined" + tempClip + ".mp4");
         randomDetermined = ofRandom(0,NDETERMINED);
         determined[randomDetermined].play();
         determined[randomDetermined].setLoopState(OF_LOOP_NONE);
@@ -328,6 +330,8 @@ void testApp::playLost() {
     if (activeSong.getPosition() < 1.0 && lost[randomLost].getIsMovieDone() == true) {
         
         lost[randomLost].closeMovie();
+        string tempClip = ofToString(randomLost+1);
+        lost[randomLost].loadMovie("movies/Lost/lost" + tempClip + ".mp4");
         randomLost = ofRandom(0,NLOST);
         lost[randomLost].play();
         lost[randomLost].setLoopState(OF_LOOP_NONE);
@@ -335,7 +339,7 @@ void testApp::playLost() {
     }
     
     else {
-        
+        cout << randomLost << " | " << lost[randomLost].isLoaded() << endl;
         lost[randomLost].draw(0,0);
         
     }
@@ -347,6 +351,8 @@ void testApp::playNostalgic() {
     if (activeSong.getPosition() < 1.0 && nostalgic[randomNostalgic].getIsMovieDone() == true) {
         
         nostalgic[randomNostalgic].closeMovie();
+        string tempClip = ofToString(randomNostalgic+1);
+        nostalgic[randomNostalgic].loadMovie("movies/Nostalgic/nostalgic" + tempClip + ".mp4");
         randomNostalgic = ofRandom(0,NNOSTALGIC);
         nostalgic[randomNostalgic].play();
         nostalgic[randomNostalgic].setLoopState(OF_LOOP_NONE);
@@ -354,7 +360,7 @@ void testApp::playNostalgic() {
     }
     
     else {
-        
+        cout << randomNostalgic << " | " << nostalgic[randomNostalgic].isLoaded() << endl;
         nostalgic[randomNostalgic].draw(0,0);
         
     }
@@ -366,6 +372,8 @@ void testApp::playIntrospective() {
     if (activeSong.getPosition() < 1.0 && introspective[randomIntrospective].getIsMovieDone() == true) {
         
         introspective[randomIntrospective].closeMovie();
+        string tempClip = ofToString(randomIntrospective+1);
+        introspective[randomIntrospective].loadMovie("movies/Introspective/introspective" + tempClip + ".mp4");
         randomIntrospective = ofRandom(0,NINTROSPECTIVE);
         introspective[randomIntrospective].play();
         introspective[randomIntrospective].setLoopState(OF_LOOP_NONE);
@@ -373,9 +381,8 @@ void testApp::playIntrospective() {
     }
     
     else {
-        
+        cout << randomIntrospective << " | " << introspective[randomIntrospective].isLoaded() << endl;
         introspective[randomIntrospective].draw(0,0);
-        
     }
     
 }
